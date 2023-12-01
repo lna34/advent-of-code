@@ -1,10 +1,10 @@
 ﻿namespace AdventOfCode.AdventOfCodeDayOne
 {
-    public class Calibrator
+    public class Decoder
     {
         private string[] _linesToBeDecoded;
 
-        public Calibrator(string[] linesToBeDecoded) 
+        public Decoder(string[] linesToBeDecoded) 
         {
             _linesToBeDecoded = linesToBeDecoded; 
         }
