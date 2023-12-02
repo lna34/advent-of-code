@@ -12,7 +12,9 @@
             Sets = sets;
             GameBag = gameBag;
         }
-
+        
+        public int GetSum() => IsGameValid() ? Id : 0;
+        public int GetPowerSet() => Sets.Max(_ => _.Red) * Sets.Max(_ => _.Blue) * Sets.Max(_ => _.Green);
         public bool IsGameValid()
         {
             return !Sets.Any(set => !set.IsSetValid(GameBag.Sets.First()));
