@@ -1,4 +1,5 @@
 ﻿using AdventOfCode;
+using System.Diagnostics;
 using System.Reflection;
 
 Execute();
@@ -18,19 +19,38 @@ void Execute()
 
         var resolver = GetResolver(day);
 
-        if (resolver != null)
+        if (resolver == null)
         {
-            Console.WriteLine("Solution du puzzle 1: " + resolver.ResolvePuzzle1());
-            Console.WriteLine("Solution du puzzle 2: " + resolver.ResolvePuzzle2());
+            Console.WriteLine("Aucun puzzle trouvé pour le jour renseigné");
+            continue;
         }
+
+        ExecuteWithPerformancesDisplay(() => resolver.ResolvePuzzle1(), 1);
+        ExecuteWithPerformancesDisplay(() => resolver.ResolvePuzzle2(), 2);
     }
+}
+
+void ExecuteWithPerformancesDisplay(Func<object> method, int puzzleNumber)
+{
+    // Créer un objet Stopwatch
+    Stopwatch stopWatch = new();
+    stopWatch.Start();
+    var result = method();
+    stopWatch.Stop();
+    Console.WriteLine($"Solution du puzzle {puzzleNumber}: {result} en {stopWatch.Elapsed}");
 }
 
 BaseResolver? GetResolver(int day)
 {
     var resolverFullName = $"AdventOfCode.Day{day}.Resolver";
     var resolverType = Assembly.GetExecutingAssembly().GetTypes()
-        .Where(t => typeof(BaseResolver).IsAssignableFrom(t) && t.IsClass && !t.IsAbstract && t.FullName == resolverFullName).First();
+        .Where(t => typeof(BaseResolver).IsAssignableFrom(t) && t.IsClass && !t.IsAbstract && t.FullName == resolverFullName).FirstOrDefault();
+
+    if (resolverType == null)
+    {
+        return null;
+    }
+
     var resolverInstance = (BaseResolver?)Activator.CreateInstance(resolverType);
 
     return resolverInstance;
