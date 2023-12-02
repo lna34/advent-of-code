@@ -2,8 +2,8 @@
 {
     public class Game
     {
-        public Game GameBag { get; }
         public int Id { get; }
+        public Game GameBag { get; }
         public Set[] Sets { get; }
 
         public Game(int id, Game gameBag, Set[] sets)

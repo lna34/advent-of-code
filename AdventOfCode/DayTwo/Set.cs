@@ -1,19 +1,28 @@
 ﻿namespace AdventOfCode.DayTwo
 {
+    public enum Color
+    {
+        Red,
+        Green,
+        Blue
+    }
     public class Set
     {
-        public Cube[] Cubes { get; }
+        public int Red { get; }
+        public int Green { get; }
+        public int Blue { get; }
 
-        public Set(Cube[] cubes)
+        public Set(int red, int green, int blue)
         {
-            Cubes = cubes;
+            Red = red;
+            Green = green;
+            Blue = blue;
         }
 
         public bool IsSetValid(Set gameBag)
         {
-            return !Cubes.Any(cube =>
-                 gameBag.Cubes.FirstOrDefault(gameBagCube => gameBagCube.Color == cube.Color)?.Value < cube.Value
-             );
+            return gameBag.Red >= Red && gameBag.Green >= Green && gameBag.Blue >= Blue;
         }
+
     }
 }

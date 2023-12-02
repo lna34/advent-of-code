@@ -11,11 +11,18 @@
             _gameBag = gameBag;
         }
 
-        public int Resolve()
+        public int ResolvePuzzle1()
         {
             var games = ParseGameData();
             return games.Where(_ => _.IsGameValid()).Select(_ => _.Id).Sum();
         }
+
+        public int ResolvePuzzle2()
+        {
+            var games = ParseGameData();
+            return games.Select(_ => _.Sets.Max(_ => _.Red) * _.Sets.Max(_ => _.Blue) * _.Sets.Max(_ => _.Green)).Sum();
+        }
+
 
         private List<Game> ParseGameData()
         {
@@ -36,8 +43,11 @@
                     }
 
                     var cubes = sets[setIndex].Split(cubesDelimiter, StringSplitOptions.None);
-                    Cube[] gameCubes = BuildCubes(cubes);
-                    gameSets.Add(new Set(gameCubes));
+                    var red = GetCubeCount(cubes, nameof(Color.Red).ToLower());
+                    var green = GetCubeCount(cubes, nameof(Color.Green).ToLower());
+                    var blue = GetCubeCount(cubes, nameof(Color.Blue).ToLower());
+
+                    gameSets.Add(new Set(red, green, blue));
                 }
 
                 games.Add(new Game(gameIndex + 1, _gameBag, gameSets.ToArray()));
@@ -46,22 +56,10 @@
             return games;
         }
 
-        private Cube[] BuildCubes(string[] cubes)
+        private int GetCubeCount(string[] cubes, string color)
         {
-            return cubes.Select(cube =>
-            {
-                var cubeVa = cube.Split(" ", StringSplitOptions.None).Where(_ => _ != "").ToArray();
-                if (!Enum.TryParse(cubeVa[1], true, out Color color))
-                {
-                    throw new Exception();
-                }
-                if (!int.TryParse(cubeVa[0], out int value))
-                {
-                    throw new Exception();
-                }
-
-                return new Cube(color, value);
-            }).ToArray();
+            return cubes.Where(_ => _.Contains(color)).Sum(_ => int.Parse(_.Split(" ", StringSplitOptions.None)[1])); 
         }
+
     }
 }

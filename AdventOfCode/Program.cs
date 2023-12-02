@@ -10,14 +10,11 @@ string[] gameData = File.ReadAllLines(@"C:\Users\Luc\source\repos\AdventOfCode\A
 
 var gameBag = new Game(0, null, new Set[]
 {
-    new Set(new Cube[]
-    {
-        new Cube(Color.Red, 12),
-        new Cube(Color.Green, 13),
-        new Cube(Color.Blue, 14),
-    })
+    new Set(12,13,14)
 });
 
 var gameResolver = new GameResolver(gameBag, gameData);
-var result = gameResolver.Resolve();
-Console.WriteLine(gameData);
+var resultPuzzle1 = gameResolver.ResolvePuzzle1();
+var resultPuzzle2 = gameResolver.ResolvePuzzle2();
+Console.WriteLine(resultPuzzle1);
+Console.WriteLine(resultPuzzle2);
