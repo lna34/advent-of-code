@@ -4,9 +4,7 @@ using AdventOfCode.DayTwo;
 string[] linesToBeDecoded = File.ReadAllLines(@"C:\Users\Luc\source\repos\AdventOfCode\AdventOfCode\DayOne\puzzle_1_data.txt");
 var decoder = new Decoder(linesToBeDecoded);
 int dayOneResultPuzzle1 = decoder.ResolvePuzzle1();
-int dayOneResultPuzzle2 = decoder.ResolvePuzzle2();
 Console.WriteLine(dayOneResultPuzzle1);
-Console.WriteLine(dayOneResultPuzzle2);
 
 string[] gameData = File.ReadAllLines(@"C:\Users\Luc\source\repos\AdventOfCode\AdventOfCode\DayTwo\game_data.txt");
 

@@ -31,20 +31,5 @@ namespace AdventOfCode.AdventOfCodeDayOne
                 .Select(line => Convert.ToInt32($"{line.First()}{line.Last()}"))
                 .Sum();
         }
-
-        public int ResolvePuzzle2()
-        {
-            FindFirstAndLastDigits("");
-            return 1;
-        }
-
-        private (int FirstDigit, int LastDigit) FindFirstAndLastDigits(string input)
-        {
-            string pattern = @"\d|one|two|three|four|five|six|seven|eight|nine";
-            var matchFirstDigit = Regex.Match(input, pattern).Value;
-            var matchLastDigit = Regex.Match(input, pattern, RegexOptions.RightToLeft).Value;
-            
-            return (1, 1);
-        }
     }
 }
