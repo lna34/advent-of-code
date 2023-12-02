@@ -10,7 +10,7 @@
                 .Select(line =>
                 {
                     var ligne = new string(line.Where(c => char.IsDigit(c)).ToArray());
-                    return Convert.ToInt32($"{ligne.First()}{ligne.Last()}");
+                    return int.Parse($"{ligne.First()}{ligne.Last()}");
                 }).Sum();
         }
 
