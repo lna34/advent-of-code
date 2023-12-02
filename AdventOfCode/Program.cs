@@ -1,20 +1,37 @@
-﻿using AdventOfCode.AdventOfCodeDayOne;
-using AdventOfCode.DayTwo;
+﻿using AdventOfCode;
+using System.Reflection;
 
-string[] linesToBeDecoded = File.ReadAllLines(@"C:\Users\Luc\source\repos\AdventOfCode\AdventOfCode\DayOne\puzzle_1_data.txt");
-var decoder = new Decoder(linesToBeDecoded);
-int dayOneResultPuzzle1 = decoder.ResolvePuzzle1();
-Console.WriteLine(dayOneResultPuzzle1);
+Execute();
 
-string[] gameData = File.ReadAllLines(@"C:\Users\Luc\source\repos\AdventOfCode\AdventOfCode\DayTwo\game_data.txt");
-
-var gameBag = new Game(0, null, new Set[]
+void Execute()
 {
-    new Set(12,13,14)
-});
+    while (true)
+    {
+        Console.Write("Veuillez renseigner le jour du puzzle à résoudre: ");
+        var inputDay = Console.ReadLine();
 
-var gameResolver = new GameResolver(gameBag, gameData);
-var resultPuzzle1 = gameResolver.ResolvePuzzle1();
-var resultPuzzle2 = gameResolver.ResolvePuzzle2();
-Console.WriteLine(resultPuzzle1);
-Console.WriteLine(resultPuzzle2);
+        if (!int.TryParse(inputDay, out int day))
+        {
+            Console.WriteLine("Veuillez renseigner un nombre ! ");
+            continue;
+        }
+
+        var resolver = GetResolver(day);
+
+        if (resolver != null)
+        {
+            Console.WriteLine("Solution du puzzle 1: " + resolver.ResolvePuzzle1());
+            Console.WriteLine("Solution du puzzle 2: " + resolver.ResolvePuzzle2());
+        }
+    }
+}
+
+BaseResolver? GetResolver(int day)
+{
+    var resolverFullName = $"AdventOfCode.Day{day}.Resolver";
+    var resolverType = Assembly.GetExecutingAssembly().GetTypes()
+        .Where(t => typeof(BaseResolver).IsAssignableFrom(t) && t.IsClass && !t.IsAbstract && t.FullName == resolverFullName).First();
+    var resolverInstance = (BaseResolver?)Activator.CreateInstance(resolverType);
+
+    return resolverInstance;
+}

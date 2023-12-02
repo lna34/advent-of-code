@@ -1,23 +1,25 @@
-﻿namespace AdventOfCode.DayTwo
+﻿namespace AdventOfCode.Day2
 {
-    public class GameResolver 
+    public class Resolver : BaseResolver
     {
-        private readonly string[] _gamesData;
         private readonly Game _gameBag;
         private readonly IReadOnlyCollection<Game> _games;
-        public GameResolver(Game gameBag, string[] gameData)
+        public Resolver() : base(2)
         {
-            _gameBag = gameBag;
-            _gamesData = gameData;
+            _gameBag = new Game(0, new Set[]
+            {
+                new Set(12,13,14)
+            });
+
             _games = ParseGameData();
         }
 
-        public int ResolvePuzzle1()
+        public override int ResolvePuzzle1()
         {
-            return _games.Select(game => game.GetSum()).Sum();
+            return _games.Select(game => game.GetSum(_gameBag)).Sum();
         }
 
-        public int ResolvePuzzle2()
+        public override int ResolvePuzzle2()
         {
             return _games.Select(game => game.GetPowerSet()).Sum();
         }
@@ -27,9 +29,9 @@
             char[] setDelimiters = { ':', ';' };
             char cubesDelimiter = ',';
 
-            return _gamesData.Select((game, index) =>
+            return Data.Select((game, index) =>
             {
-                var sets = game.Split(setDelimiters, StringSplitOptions.None).Where(_ => !_.Contains("Game")).Select(set =>
+                var sets = game.Split(setDelimiters, StringSplitOptions.None).Select(set =>
                 {
                     var cubes = set.Split(cubesDelimiter, StringSplitOptions.None);
                     var red = GetCubeCount(cubes, nameof(Color.Red).ToLower());
@@ -38,7 +40,7 @@
                     return new Set(red, green, blue);
                 }).ToArray();
 
-                return new Game(index, _gameBag, sets);
+                return new Game(index, sets);
             }).ToList();
         }
 
@@ -46,6 +48,5 @@
         {
             return cubes.Where(_ => _.Contains(color)).Sum(_ => int.Parse(_.Split(" ", StringSplitOptions.None)[1])); 
         }
-
     }
 }
