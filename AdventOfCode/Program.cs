@@ -32,7 +32,6 @@ void Execute()
 
 void ExecuteWithPerformancesDisplay(Func<object> method, int puzzleNumber)
 {
-    // Créer un objet Stopwatch
     Stopwatch stopWatch = new();
     stopWatch.Start();
     var result = method();
