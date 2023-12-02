@@ -4,7 +4,7 @@
     {
         public Resolver() : base(1) { }
 
-        public override int ResolvePuzzle1()
+        public override object ResolvePuzzle1()
         {
             return Data
                 .Select(line => new string(line.Where(c => char.IsDigit(c)).ToArray()))
@@ -13,7 +13,7 @@
                 .Sum();
         }
 
-        public override int ResolvePuzzle2()
+        public override object ResolvePuzzle2()
         {
             return Data
                 .Select(line => new string(line.Where(c => char.IsDigit(c)).ToArray()))

@@ -14,12 +14,12 @@
             _games = ParseGameData();
         }
 
-        public override int ResolvePuzzle1()
+        public override object ResolvePuzzle1()
         {
             return _games.Select(game => game.GetSum(_gameBag)).Sum();
         }
 
-        public override int ResolvePuzzle2()
+        public override object ResolvePuzzle2()
         {
             return _games.Select(game => game.GetPowerSet()).Sum();
         }

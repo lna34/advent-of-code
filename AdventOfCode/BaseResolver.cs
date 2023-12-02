@@ -8,12 +8,12 @@
             Data = File.ReadAllLines(@$"C:\Users\Luc\source\repos\AdventOfCode\AdventOfCode\Day{day}\data.txt");
         }
 
-        public virtual int ResolvePuzzle1()
+        public virtual object ResolvePuzzle1()
         {
             return 0;
         }
 
-        public virtual int ResolvePuzzle2()
+        public virtual object ResolvePuzzle2()
         {
             return 0;
         }
