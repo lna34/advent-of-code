@@ -1,11 +1,14 @@
-﻿namespace AdventOfCode
+﻿using System.Reflection;
+
+namespace AdventOfCode
 {
     public class BaseResolver
     {
         protected string[] Data { get; }
         public BaseResolver(int day)
         {
-            Data = File.ReadAllLines(@$"C:\Users\Luc\source\repos\AdventOfCode\AdventOfCode\Day{day}\data.txt");
+            string pathToData = AppDomain.CurrentDomain.BaseDirectory;
+            Data = File.ReadAllLines($@"{pathToData}\Day{day}\data.txt");
         }
 
         public virtual object ResolvePuzzle1()
