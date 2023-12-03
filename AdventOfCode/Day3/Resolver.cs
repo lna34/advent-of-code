@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AdventOfCode.Extensions;
 
 namespace AdventOfCode.Day3
 {
@@ -13,20 +12,20 @@ namespace AdventOfCode.Day3
 
         public override object ResolvePuzzle1()
         {
-            var numbersToBeReturned = ComputeNumbersAdjacentsWithSymbols();
+            var adjacentsNumbers = ComputeNumbersAdjacentsWithSymbols();
         
-            return numbersToBeReturned.Sum();
+            return adjacentsNumbers.Sum();
         }
 
         public override object ResolvePuzzle2()
         {
-            var numbersToBeReturned = ComputeNumbersAdjacentsToAsterisk();
-            return numbersToBeReturned.Sum();
+            var adjacentsNumbers = ComputeNumbersAdjacentsToAsterisk();
+            return adjacentsNumbers.Sum();
         }
 
         private List<int> ComputeNumbersAdjacentsWithSymbols()
         {
-            var numbersToBeReturned = new List<int>();
+            var adjacentsNumbers = new List<int>();
 
             for (int lineIndex = 0; lineIndex < Data.Length; lineIndex++)
             {
@@ -36,24 +35,20 @@ namespace AdventOfCode.Day3
 
                 for (int charIndex = 0; charIndex < currentLine.Length; charIndex++)
                 {
-                    if (char.IsDigit(currentLine[charIndex]))
+                    if (
+                        char.IsDigit(currentLine[charIndex]) 
+                        && (DigitHasAdjacentSymbols(currentLine, charIndex)
+                        || DigitHasAdjacentSymbols(nextLine, charIndex)
+                        || DigitHasAdjacentSymbols(previousLine, charIndex)))
                     {
-                        var charHasAdjacent = 
-                            NumberHasAdjacents(currentLine, charIndex) 
-                            || NumberHasAdjacents(nextLine, charIndex) 
-                            || NumberHasAdjacents(previousLine, charIndex);
-
-                        if (charHasAdjacent)
-                        {
-                            var result = BuildNumber(currentLine, charIndex);
-                            numbersToBeReturned.Add(result.Number);
-                            charIndex = result.NewIndex;
-                        }
+                        var result = BuildNumberHavingAdjacentSymbols(currentLine, charIndex);
+                        adjacentsNumbers.Add(result.Number);
+                        charIndex = result.NewIndex;
                     }
                 }
             }
 
-            return numbersToBeReturned;
+            return adjacentsNumbers;
         }
 
         private List<int> ComputeNumbersAdjacentsToAsterisk()
@@ -77,9 +72,9 @@ namespace AdventOfCode.Day3
 
                         if(asteriskAdjacents.Count >= 2)
                         {
-                            numbersToBeReturned.Add( asteriskAdjacents.Select(_ =>
+                            numbersToBeReturned.Add(asteriskAdjacents.Select(_ =>
                              {
-                                 var num = BuildNumber(_.line, _.index).Number; 
+                                 var num = BuildNumberHavingAdjacentSymbols(_.line, _.index).Number; 
                                  return num;
                              }).Aggregate((current, next) => current * next));
                         }
@@ -97,21 +92,21 @@ namespace AdventOfCode.Day3
                 return new List<(string line, int index)>();
             }
             var adjacents = new List<(string line, int index)>();
-            var hasAdjacentPrec = index > 0 ? char.IsDigit(line[index - 1])  : false;
-            var hasAdjecentSuivant = index < line.Length - 1 ? char.IsDigit(line[index + 1])  : false;
-            var hasAdjacentCar = index > 0 ? char.IsDigit(line[index]) : false;
+            var hasAdjacentOnPreviousChar = index > 0 ? char.IsDigit(line[index - 1])  : false;
+            var hasAdjacentOnNextChar = index < line.Length - 1 ? char.IsDigit(line[index + 1])  : false;
+            var hasAdjacentOnCurrentChar = index > 0 ? char.IsDigit(line[index]) : false;
             
-            if((hasAdjacentPrec && hasAdjecentSuivant && hasAdjacentCar) || (hasAdjecentSuivant && hasAdjacentCar) || (hasAdjacentPrec && hasAdjacentCar))
+            if((hasAdjacentOnPreviousChar && hasAdjacentOnNextChar && hasAdjacentOnCurrentChar) || (hasAdjacentOnNextChar && hasAdjacentOnCurrentChar) || (hasAdjacentOnPreviousChar && hasAdjacentOnCurrentChar))
             {
                 adjacents.Add((line, index));
                 return adjacents;
             }
-            if (hasAdjecentSuivant)
+            if (hasAdjacentOnNextChar)
             {
                 adjacents.Add((line, index + 1));
 
             }
-            if (hasAdjacentPrec)
+            if (hasAdjacentOnPreviousChar)
             {
                 adjacents.Add((line, index - 1));
             }
@@ -119,7 +114,7 @@ namespace AdventOfCode.Day3
             return adjacents;
         }
 
-        private bool NumberHasAdjacents(string? line, int index)
+        private bool DigitHasAdjacentSymbols(string? line, int index)
         {
             if (line == null)
             {
@@ -132,25 +127,25 @@ namespace AdventOfCode.Day3
             return hasAdjacentOnPreviousChar || hasAdjacentOnNextChar || hasAdjacentOnCurrentChar;
         }
 
-        private (int NewIndex, int Number) BuildNumber(string ligneEnCours, int charIndex)
+        private (int NewIndex, int Number) BuildNumberHavingAdjacentSymbols(string line, int charIndex)
         {
-            while (charIndex - 1 >= 0 && char.IsDigit(ligneEnCours[charIndex - 1]))
+            while (charIndex - 1 >= 0 && char.IsDigit(line[charIndex - 1]))
             {
                 charIndex = charIndex - 1;
             }
 
-            var builtNumber = "";
+            var number = "";
 
-            while (charIndex < ligneEnCours.Length && char.IsDigit(ligneEnCours[charIndex]))
+            while (charIndex < line.Length && char.IsDigit(line[charIndex]))
             {
-                var currentDigit = ligneEnCours[charIndex];
-                builtNumber += currentDigit;
+                var currentDigit = line[charIndex];
+                number += currentDigit;
                 charIndex = charIndex + 1;
             }
 
             charIndex -= 1;
 
-            return (charIndex, int.Parse(builtNumber));
+            return (charIndex, int.Parse(number));
         }
 
     }
