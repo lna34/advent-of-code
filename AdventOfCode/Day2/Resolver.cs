@@ -6,11 +6,7 @@
         private readonly IEnumerable<Game> _games;
         public Resolver() : base(2)
         {
-            _gameBag = new Game(0, new Set[]
-            {
-                new Set(12,13,14)
-            });
-
+            _gameBag = new Game(0, new Set[] { new Set(12, 13, 14) });
             _games = ParseGameData();
         }
 
