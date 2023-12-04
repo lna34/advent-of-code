@@ -13,12 +13,12 @@
 
         private int GetCardCopies()
         {
-            for (int i = 0; i < _cardData.Length; i++)
+            for (int cardIndex = 0; cardIndex < _cardData.Length; cardIndex++)
             {
-                var card = _cardData[i];
-                for (int j = 0; j < card.CommonNumbers; j++)
+                var card = _cardData[cardIndex];
+                for (int commonIndex = 0; commonIndex < card.CommonNumbers; commonIndex++)
                 {
-                    _cardData[i + j + 1].Copies += card.Copies;
+                    _cardData[cardIndex + commonIndex + 1].Copies += card.Copies;
                 }
             }
 
