@@ -2,33 +2,37 @@
 {
     public class Resolver : BaseResolver
     {
-        public Resolver() : base(4) { }
-
-        public override object ResolvePuzzle1() => BuildCardData().Sum(_ => _.ComputePoints());
-
-        public override object ResolvePuzzle2()
+        private readonly Card[] _cardData;
+        public Resolver() : base(4)
         {
-            var cardData = BuildCardData();
+            _cardData = BuildCardData();
+        }
 
-            for (int i = 0; i < cardData.Count; i++)
+        public override object ResolvePuzzle1() => _cardData.Sum(_ => _.ComputePoints());
+        public override object ResolvePuzzle2() => GetCardCopies();
+
+        private int GetCardCopies()
+        {
+            for (int i = 0; i < _cardData.Length; i++)
             {
-                for (int j = 0; j < cardData[i].Copies; j++)
+                var card = _cardData[i];
+                for (int j = 0; j < card.CommonNumbers; j++)
                 {
-                    CreateCopies(i, cardData);
+                    _cardData[i + j + 1].Copies += card.Copies;
                 }
             }
 
-            return cardData.Select(_ => _.Copies).Sum();
+            return _cardData.Sum(_ => _.Copies);
         }
 
-        private List<Card> BuildCardData()
+        private Card[] BuildCardData()
         {
             return Data
                 .Select(
                     _ => _.Split(new char[] { ':', '|' }).Skip(1).Take(2)).ToList()
                 .Select(
                     (_, gameIndex) => new Card(gameIndex + 1, BuildNumberData(1, _), BuildNumberData(0, _))
-            ).ToList();
+            ).ToArray();
         }
 
         private IEnumerable<int> BuildNumberData(int index, IEnumerable<string> numbersToBeParsed)
@@ -37,16 +41,5 @@
                 _ => !string.IsNullOrWhiteSpace(_)
             ).Select((_, index) => int.Parse(_));
         }
-
-        private void CreateCopies(int cardIndex, List<Card> cardList)
-        {
-            var numberOfCopiesToBeCreated = cardList[cardIndex].CommonNumbers;
-
-            for (int index = 0; index < numberOfCopiesToBeCreated; index++)
-            {
-                cardList[index + cardIndex + 1].Copies++;   
-            }
-        }
-
     }
 }
