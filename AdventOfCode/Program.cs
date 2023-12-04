@@ -17,7 +17,7 @@ void Execute()
             continue;
         }
 
-        var resolver = GetResolver(day);
+        var resolver = ResolverFinder.GetResolver(day);
 
         if (resolver == null)
         {
@@ -37,20 +37,4 @@ void ExecuteWithPerformancesDisplay(Func<object> method, int puzzleNumber)
     var result = method();
     stopWatch.Stop();
     Console.WriteLine($"Solution du puzzle {puzzleNumber}: {result} en {stopWatch.Elapsed}");
-}
-
-BaseResolver? GetResolver(int day)
-{
-    var resolverFullName = $"AdventOfCode.Day{day}.Resolver";
-    var resolverType = Assembly.GetExecutingAssembly().GetTypes()
-        .Where(t => typeof(BaseResolver).IsAssignableFrom(t) && t.IsClass && !t.IsAbstract && t.FullName == resolverFullName).FirstOrDefault();
-
-    if (resolverType == null)
-    {
-        return null;
-    }
-
-    var resolverInstance = (BaseResolver?)Activator.CreateInstance(resolverType);
-
-    return resolverInstance;
 }
