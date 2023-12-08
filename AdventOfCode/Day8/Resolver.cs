@@ -1,13 +1,16 @@
-﻿namespace AdventOfCode.Day8
+﻿using AdventOfCode.Extensions;
+
+namespace AdventOfCode.Day8
 {
     public class Resolver : BaseResolver
     {
+        private readonly (string, string)[] _directionsReplacer = new (string, string)[] { ("L", "0"), ("R", "1") };
         private readonly Dictionary<string, string[]> _maps = new Dictionary<string, string[]>();
         private readonly int[] _directions;
         public Resolver() : base(8)
         {
             _maps = ParseData();
-            _directions = data[0].Replace("L", "0").Replace("R", "1").Select(_ => int.Parse(_.ToString())).ToArray();
+            _directions = data[0].ReplaceOccurences(_directionsReplacer).Select(_ => int.Parse(_.ToString())).ToArray();
         }
 
         public override object ResolvePuzzle1() => ResolvePath(_maps.First(_ => _.Key == "AAA"));
