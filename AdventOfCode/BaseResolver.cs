@@ -1,6 +1,4 @@
-﻿using System.Reflection;
-
-namespace AdventOfCode
+﻿namespace AdventOfCode
 {
     public abstract class BaseResolver
     {
