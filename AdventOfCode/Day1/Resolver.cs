@@ -6,7 +6,7 @@
 
         public override object ResolvePuzzle1()
         {
-            return Data
+            return data
                 .Select(line =>
                 {
                     var ligne = new string(line.Where(c => char.IsDigit(c)).ToArray());

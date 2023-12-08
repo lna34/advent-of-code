@@ -21,11 +21,11 @@
         {
             var adjacentsNumbers = new List<int>();
 
-            for (int lineIndex = 0; lineIndex < Data.Length; lineIndex++)
+            for (int lineIndex = 0; lineIndex < data.Length; lineIndex++)
             {
-                var currentLine = Data[lineIndex];
-                var previousLine = lineIndex == 0 ? null : Data[lineIndex - 1];
-                var nextLine = lineIndex >= Data.Length - 1 ? null : Data[lineIndex + 1];
+                var currentLine = data[lineIndex];
+                var previousLine = lineIndex == 0 ? null : data[lineIndex - 1];
+                var nextLine = lineIndex >= data.Length - 1 ? null : data[lineIndex + 1];
 
                 for (int charIndex = 0; charIndex < currentLine.Length; charIndex++)
                 {
@@ -49,11 +49,11 @@
         {
             var numbersToBeReturned = new List<int>();
 
-            for (int lineIndex = 0; lineIndex < Data.Length; lineIndex++)
+            for (int lineIndex = 0; lineIndex < data.Length; lineIndex++)
             {
-                var currentLine = Data[lineIndex];
-                var previousLine = lineIndex == 0 ? null : Data[lineIndex - 1];
-                var nextLine = lineIndex >= Data.Length - 1 ? null : Data[lineIndex + 1];
+                var currentLine = data[lineIndex];
+                var previousLine = lineIndex == 0 ? null : data[lineIndex - 1];
+                var nextLine = lineIndex >= data.Length - 1 ? null : data[lineIndex + 1];
 
                 for (int charIndex = 0; charIndex < currentLine.Length; charIndex++)
                 {

@@ -27,7 +27,7 @@
 
         private Card[] BuildCardData()
         {
-            return Data
+            return data
                 .Select(
                     _ => _.Split(new char[] { ':', '|' }).Skip(1).Take(2)).ToList()
                 .Select(

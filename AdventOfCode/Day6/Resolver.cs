@@ -2,7 +2,7 @@
 {
     public class Resolver : BaseResolver
     {
-        private readonly List<Course> _courses;
+        private readonly IEnumerable<Course> _courses;
         public Resolver(): base(6)
         {
             _courses = ParseCourseData();
@@ -28,8 +28,8 @@
 
         public List<Course> ParseCourseData()
         {
-            var time = Data[0].Split(" ", StringSplitOptions.RemoveEmptyEntries);
-            var distance = Data[1].Split(" ", StringSplitOptions.RemoveEmptyEntries);
+            var time = data[0].Split(" ", StringSplitOptions.RemoveEmptyEntries);
+            var distance = data[1].Split(" ", StringSplitOptions.RemoveEmptyEntries);
 
             return time.Select((temps, index) => new Course(long.Parse(time[index]), long.Parse(distance[index]))).ToList();
         }

@@ -15,7 +15,7 @@
 
         private IEnumerable<Game> ParseGameData()
         {
-            return Data.Select((game, index) =>
+            return data.Select((game, index) =>
             {
                 var sets = game.Split(new char[] { ':', ';' }, StringSplitOptions.None).Select(set =>
                  {

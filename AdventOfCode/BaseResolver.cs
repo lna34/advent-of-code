@@ -2,11 +2,11 @@
 {
     public abstract class BaseResolver
     {
-        protected string[] Data { get; }
+        protected string[] data { get; }
         public BaseResolver(int day)
         {
             string pathToData = AppDomain.CurrentDomain.BaseDirectory;
-            Data = File.ReadAllLines($@"{pathToData}\Day{day}\data.txt");
+            data = File.ReadAllLines($@"{pathToData}\Day{day}\data.txt");
         }
 
         public abstract object ResolvePuzzle1();

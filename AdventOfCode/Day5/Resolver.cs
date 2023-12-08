@@ -4,7 +4,7 @@ namespace AdventOfCode.Day5
 {
     public class Resolver : BaseResolver
     {
-        private readonly List<List<(double source, double destination, double range)>> _maps;
+        private readonly IEnumerable<IEnumerable<(double source, double destination, double range)>> _maps;
         private readonly double[] _seeds;
         public Resolver() : base(5) 
         {
@@ -59,9 +59,9 @@ namespace AdventOfCode.Day5
             var maps = new List<List<(double source, double destination, double range)>>();
             var map = new List<(double source, double destination, double range)>();
           
-            for (int dataIndex = 2; dataIndex < Data.Length; dataIndex++)
+            for (int dataIndex = 2; dataIndex < data.Length; dataIndex++)
             {
-                var line = Data[dataIndex];
+                var line = data[dataIndex];
                 if (line.Contains("map")) continue;
 
                 if (string.IsNullOrWhiteSpace(line))
@@ -79,7 +79,7 @@ namespace AdventOfCode.Day5
 
         private double[] ParseSeedsData()
         {
-           return Data[0].Split(" ")
+           return data[0].Split(" ")
                     .Where(_ => _.All(char.IsDigit))
                     .Select(_ => double.Parse(_)).ToArray();
         }
